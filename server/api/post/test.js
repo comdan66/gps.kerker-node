@@ -26,7 +26,7 @@ module.exports = ({ output, params, request }, { socketIO: IO, db: DB }) => {
     ({ insertId: id }) => (object.id = id, findDevice(object)),
     error => output.json({ message: error.message }, 400))
 
-  const findDevice = object => DB.one('Device', { uuid: object.uuid, system: object.system },
+  const findDevice = object => DB.one('Device', { where: { uuid: object.uuid, system: object.system } },
     device => device
       ? (object = {...object, ...device}, findEvent(object))
       : createDevice(object),

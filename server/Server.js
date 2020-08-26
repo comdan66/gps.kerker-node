@@ -35,7 +35,7 @@ require('./lib/App')({
 
     // 建立 https
     this.queue.enqueue(next => Block('建立 https 伺服器', cmd('時間', new Date()), cmd('網址', 'https://' + this.env.https.domain + ':' + this.env.https.port))
-      .doing(progress => this.server('http', this.env.https,
+      .doing(progress => this.server(this.env.status == 'Production' ? 'https' : 'http', this.env.https,
         info  => this.router(info),
         https => progress.result(this.https = https).success(),
         error => progress.failure(null, error)))

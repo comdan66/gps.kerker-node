@@ -56,7 +56,7 @@ module.exports = function(instance) {
     },
 
     server (protocol, option, closure, success, failure) {
-      const server = require(protocol).Server(option.option)
+      const server = require(protocol).Server(protocol == 'https' ? option.option : undefined)
       server.on('error', failure)
       server.listen(option.port, _ => success(server))
       server.on('request', (request, response) => {

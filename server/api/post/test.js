@@ -6,7 +6,7 @@
  */
 
 module.exports = ({ output, params, request }, { socketIO: IO, db: DB }) => {
-  console.error(output.json);
+  console.error(params.json);
 
   const createSignals = object => DB.creates('Signal', object.event.signals.map(signal => ({...signal, eventId: object.event.id, deviceId: object.id })),
     results => output.json({ message: 'ok', deviceName: object.name, eventId: object.event.id, eventTitle: object.event.title }) ,(IO.get('live') || { emitAll: _ => _ }).emitAll(),

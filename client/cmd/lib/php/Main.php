@@ -23,11 +23,15 @@ $argv = getArgv(array_slice($argv, 1), [
 
 // 依環境定義常數
 switch (ENVIRONMENT) {
-  case 'Development': break;
-  case 'Staging': break;
-  case 'Testing': break;
-  case 'Production': break;
+  case 'Development':
+    define('SOCKET', 'http://127.0.0.1:8099/');
+    break;
+
+  case 'Production':
+    define('SOCKET', 'https://api-gps.kerker.tw/');
+    break;
 }
+
 
 // 定義路徑常數
 define('PATH_PHP', dirname(__FILE__) . DIRECTORY_SEPARATOR);

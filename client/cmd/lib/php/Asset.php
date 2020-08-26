@@ -39,7 +39,8 @@ namespace HTML {
     public function __toString() {
       $strs = [];
       $prev = [
-        \HTML\Script("window.ENV = '" . ENVIRONMENT . "';")->type('text/javascript')
+        \HTML\Script("window.ENV = '" . ENVIRONMENT . "';")->type('text/javascript'),
+        \HTML\Script("window.SOCKET = '" . SOCKET . "';")->type('text/javascript')
       ];
       
       if (in_array(ENVIRONMENT, ['Development', 'Testing'])) {

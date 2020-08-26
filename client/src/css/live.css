@@ -1,0 +1,29 @@
+@charset "UTF-8";
+@font-face { font-family: "icon"; src: url('../icon/icomoon/fonts/icomoon.eot?1578659854') format('embedded-opentype'), url('../icon/icomoon/fonts/icomoon.woff?1578659854') format('woff'), url('../icon/icomoon/fonts/icomoon.ttf?1578659854') format('truetype'), url('../icon/icomoon/fonts/icomoon.svg?1578659854') format('svg'); }
+*, *:after, *:before { vertical-align: top; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; -moz-osx-font-smoothing: subpixel-antialiased; -webkit-font-smoothing: subpixel-antialiased; -moz-font-smoothing: subpixel-antialiased; -ms-font-smoothing: subpixel-antialiased; -o-font-smoothing: subpixel-antialiased; }
+
+#online { -moz-user-select: -moz-none; -ms-user-select: none; -webkit-user-select: none; user-select: none; }
+
+@-moz-keyframes rotate { 0% { -moz-transform: rotate(0); transform: rotate(0); }
+  100% { -moz-transform: rotate(360deg); transform: rotate(360deg); } }
+@-webkit-keyframes rotate { 0% { -webkit-transform: rotate(0); transform: rotate(0); }
+  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
+@keyframes rotate { 0% { -moz-transform: rotate(0); -ms-transform: rotate(0); -webkit-transform: rotate(0); transform: rotate(0); }
+  100% { -moz-transform: rotate(360deg); -ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
+#app { position: fixed; top: 0; left: 0; display: inline-block; width: 100%; height: 100%; background-color: #f2f1f0; z-index: 1; }
+
+#map { position: absolute !important; top: 0; left: 0; right: 0; bottom: 0; display: inline-block; width: 100%; height: 100%; background-color: #f2f1f0; z-index: 1; }
+#map .gmnoprint.gm-bundled-control, #map .gm-style-cc, #map a[href^="http://maps.google.com/maps"], #map a[href^="https://maps.google.com/maps"] { display: none !important; }
+#map > div:not(:first-child) { display: none !important; }
+
+#error { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: inline-block; width: 100%; height: 100%; background-color: #f2f1f0; z-index: 999; }
+#error span { position: absolute; left: 50%; top: 50%; display: inline-block; padding: 4px 12px; -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+
+#online { position: absolute; top: 16px; left: 16px; display: inline-block; height: 50px; line-height: 50px; font-size: 20px; z-index: 5; cursor: pointer; padding: 0 16px; color: #6f6f6f; background-color: rgba(255, 255, 255, 0.9); -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); }
+#online:before, #online:after { font-size: 18px; display: inline-block; }
+@media screen and (max-width: 749px) and (min-width: 0) { #online { height: 40px; line-height: 40px; top: 10px; left: 10px; font-size: 16px; }
+  #online:before, #online:after { font-size: 14px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #online { height: 44px; line-height: 44px; top: 12px; left: 12px; font-size: 18px; }
+  #online:before, #online:after { font-size: 16px; } }
+#online:before { content: '線上有'; margin-right: 3px; }
+#online:after { content: '人觀看'; margin-left: 3px; }

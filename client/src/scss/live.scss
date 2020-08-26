@@ -1,0 +1,122 @@
+//
+// @author      OA Wu <comdan66@gmail.com>
+// @copyright   Copyright (c) 2015 - 2020, Ginkgo
+// @license     http://opensource.org/licenses/MIT  MIT License
+// @link        https://www.ioa.tw/
+//
+
+@import "_/_init";
+@import "_/_libs";
+
+#app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(242, 241, 240, 1.00);
+  z-index: 1;
+}
+
+#map {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(242, 241, 240, 1.00);
+  z-index: 1;
+
+  .gmnoprint.gm-bundled-control, .gm-style-cc, a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"] {
+    display: none !important;
+  }
+ 
+  > div:not(:first-child) {
+    display: none !important;
+  }
+}
+
+#error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(242, 241, 240, 1.00);
+  z-index: 999;
+  span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: inline-block;
+    padding: 4px 12px;
+
+    @include transform(translate(-50%, -50%));
+  }
+}
+
+#online {
+  @extend %-user-select-none;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  
+  display: inline-block;
+  height: 50px;
+  line-height: 50px;
+
+  font-size: 20px;
+  
+  z-index: 5;
+  
+  cursor: pointer;
+  padding: 0 16px;
+  color: rgba(111, 111, 111, 1.00);
+  background-color: rgba(255, 255, 255, .9);
+  @include border-radius(3px);
+  @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
+
+  &:before, &:after {
+    font-size: 18px;
+    display: inline-block;
+  }
+
+  @include range-width(0, 750px) {
+    height: 40px;
+    line-height: 40px;
+
+    top: 10px;
+    left: 10px;
+    font-size: 16px;
+    &:before, &:after {
+      font-size: 14px;
+    }
+  }
+  @include range-width(750px, 1300px) {
+    height: 44px;
+    line-height: 44px;
+    top: 12px;
+    left: 12px;
+    font-size: 18px;
+    &:before, &:after {
+      font-size: 16px;
+    }
+  }
+
+  &:before {
+    content: '線上有';
+    margin-right: 3px;
+  }
+  &:after {
+    content: '人觀看';
+    margin-left: 3px;
+  }
+}

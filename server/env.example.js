@@ -7,6 +7,10 @@
 
 module.exports = {
   status: 'Development', // Development, Testing, Staging, Production
+  
+  google: {
+    keys: []
+  },
 
   https: {
     domain: '',

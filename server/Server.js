@@ -10,7 +10,7 @@ require('./lib/App')({
     title: '伺服器',
     queue: null,
     sockets: [
-      { title:'測試', name: 'test' },
+      { title:'LIVE', name: 'live' },
     ],
     https: null,
     socketIO: new Map(),

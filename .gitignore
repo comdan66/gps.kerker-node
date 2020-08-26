@@ -1,0 +1,10 @@
+.DS_Store
+sftp-config*
+
+server/package-lock.json
+server/node_modules/*
+server/npm-debug.log
+server/env.js
+
+server/ssl/*
+!/server/ssl/.gitkeep

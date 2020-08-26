@@ -1,0 +1,21 @@
+{
+  "name": "gps.kerker",
+  "version": "1.0.0",
+  "description": "GPS Ker Ker",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "formidable": "^1.2.2",
+    "mysql": "^2.18.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "OA Wu",
+  "license": "ISC"
+}

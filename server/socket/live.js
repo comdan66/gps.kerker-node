@@ -6,7 +6,7 @@
  */
 
 module.exports = (app, SocketIO, sockets) => ({
-  emitAll (id) {
+  emitAll () {
     // this.sql(logs => SocketIO.sockets.emit('logs', logs))
     SocketIO.sockets.emit('aaa', 'sockets.size')
   },

@@ -21,7 +21,7 @@ module.exports = ({ output, params, request }, { db: DB }) => {
       : createEvent(object),
     error => output.json({ message: error.message }, 400))
 
-  const createDevice = object => DB.create('Device', { name: object.name, uuid: object.uuid, token: 'a', system: object.system },
+  const createDevice = object => DB.create('Device', { name: object.name, uuid: object.uuid, system: object.system },
     ({ insertId: id }) => (object.id = id, findDevice(object)),
     error => output.json({ message: error.message }, 400))
 

@@ -10,7 +10,6 @@ module.exports = {
     db.attr('id').int().unsigned().notNull().autoIncrement().comment('ID')
 
     db.attr('name').varchar(190).collate('utf8mb4_unicode_ci').notNull().comment('標題')
-    db.attr('token').varchar(190).collate('utf8mb4_unicode_ci').notNull().default('').comment('Token')
     db.attr('uuid').varchar(190).collate('utf8mb4_unicode_ci').notNull().comment('UUID')
     db.attr('system').enum('iOS', 'Andriod').collate('utf8mb4_unicode_ci').notNull().default('iOS').comment('平台')
 

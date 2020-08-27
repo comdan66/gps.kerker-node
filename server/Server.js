@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-require('./lib/App')({
+require('./core/App')({
   data: {
     title: '伺服器',
     queue: null,
@@ -19,7 +19,7 @@ require('./lib/App')({
     router (info) {
       const dirs = (info.pathname === '' ? 'index' : info.pathname).split('/')
       const file = dirs.pop()
-      const api  = this[this.env.status == 'Production' ? 'requireOnce' : 'require']('api', info.method.toLowerCase(), ...dirs, file + '.js') || this[this.env.status == 'Production' ? 'requireOnce' : 'require']('api', '404.js')
+      const api  = this[this.env.status == 'Production' ? 'requireOnce' : 'require']('app', 'controller', info.method.toLowerCase(), ...dirs, file + '.js') || this[this.env.status == 'Production' ? 'requireOnce' : 'require']('app', 'controller', '404.js')
       try { return api.call(this, info, this) }
       catch (error) { return info.output.e500(error) }
     },
@@ -28,7 +28,7 @@ require('./lib/App')({
     const { block: Block, cmd } = this.progress
 
     // 建立一組 Queue
-    this.queue = this.requireOnce('lib', 'Queue.js').create()
+    this.queue = this.requireOnce('core', 'Queue.js').create()
     
     // 標題
     this.queue.enqueue(next => process.stdout.write("\n" + ' ' + this.xterm.color.yellow('【開啟各項服務】') + "\n") && next())

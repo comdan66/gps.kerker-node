@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-require('./lib/App')({
+require('./core/App')({
   data: {
     title: 'Migration',
     queue: null,
@@ -13,10 +13,10 @@ require('./lib/App')({
   methods: {
     files () {
       try {
-        return this.fs.readdirSync(this.path('migration')).map(file => {
+        return this.fs.readdirSync(this.path('app', 'migration')).map(file => {
           file = /^(?<version>[0-9]+)\-(?<name>.*)\.js$/g.exec(file)
           if (file === null) return null
-          const migrate = this.require('migration', file.groups.version + '-' + file.groups.name + '.js')
+          const migrate = this.require('app', 'migration', file.groups.version + '-' + file.groups.name + '.js')
 
           if (!migrate) return null
 
@@ -63,7 +63,7 @@ require('./lib/App')({
   init () {
     const { block: Block, cmd } = this.progress
     
-    queue = this.requireOnce('lib', 'Queue.js').create()
+    queue = this.requireOnce('core', 'Queue.js').create()
     
     queue.enqueue(next => process.stdout.write("\n" + ' ' + this.xterm.color.yellow('【取得 Migration 版本】') + "\n") && next())
 

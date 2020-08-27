@@ -1,10 +1,10 @@
 .DS_Store
 sftp-config*
 
-server/core/package-lock.json
-server/core/node_modules/*
-server/core/npm-debug.log
-server/core/env.js
+server/sys/package-lock.json
+server/sys/node_modules/*
+server/sys/npm-debug.log
+server/sys/env.js
 
-server/core/ssl/*
-!/server/core/ssl/.gitkeep
+server/sys/ssl/*
+!/server/sys/ssl/.gitkeep

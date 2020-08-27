@@ -145,15 +145,15 @@ module.exports = function(instance) {
       methods[key] = instance[key], delete instance[key], Object.defineProperty(instance, key, { get: _ => methods[key].bind(instance), set: v => methods[key] = v })  
 
   // 載入顏色、Model、FileSystem Lib
-  instance.xterm = instance.requireOnce('core', 'Xterm.js')
-  instance.db    = instance.requireOnce('core', 'Model.js')
+  instance.xterm = instance.requireOnce('sys', 'Xterm.js')
+  instance.db    = instance.requireOnce('sys', 'Model.js')
   instance.fs    = FileSystem
 
   // 環境設定
-  instance.env   = instance.requireOnce('core', 'env.js')
+  instance.env   = instance.requireOnce('sys', 'env.js')
 
   // Lib 設定
-  instance.progress = instance.requireOnce('core', 'Progress.js')
+  instance.progress = instance.requireOnce('sys', 'Progress.js')
   instance.xterm && instance.progress && (instance.progress.color = instance.xterm.color)
   instance.env   || instance.error('找不到 env.js 檔案，請複製 env.example.js 內容並新增 env.js 檔案後再重試一次！')
   instance.db    || instance.error('Model 無法取得 Lib！')
@@ -165,7 +165,7 @@ module.exports = function(instance) {
 
   // 設定 https
   try {
-    instance.env.https.option = { key: FileSystem.readFileSync(instance.env.status != 'Production' ? instance.path('core', 'ssl', 'server.key') : instance.env.https.key), cert: FileSystem.readFileSync(instance.env.status != 'Production' ? instance.path('core', 'ssl', 'server.crt') : instance.env.https.cert) }
+    instance.env.https.option = { key: FileSystem.readFileSync(instance.env.status != 'Production' ? instance.path('sys', 'ssl', 'server.key') : instance.env.https.key), cert: FileSystem.readFileSync(instance.env.status != 'Production' ? instance.path('sys', 'ssl', 'server.crt') : instance.env.https.cert) }
     delete instance.env.https.key
     delete instance.env.https.cert
   } catch (e) {

@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-require('./core/App')({
+require('./sys/App')({
   data: {
     title: '伺服器',
     queue: null,
@@ -28,7 +28,7 @@ require('./core/App')({
     const { block: Block, cmd } = this.progress
 
     // 建立一組 Queue
-    this.queue = this.requireOnce('core', 'Queue.js').create()
+    this.queue = this.requireOnce('sys', 'Queue.js').create()
     
     // 標題
     this.queue.enqueue(next => process.stdout.write("\n" + ' ' + this.xterm.color.yellow('【開啟各項服務】') + "\n") && next())

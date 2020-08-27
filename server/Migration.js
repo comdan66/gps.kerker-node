@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-require('./core/App')({
+require('./sys/App')({
   data: {
     title: 'Migration',
     queue: null,
@@ -63,7 +63,7 @@ require('./core/App')({
   init () {
     const { block: Block, cmd } = this.progress
     
-    queue = this.requireOnce('core', 'Queue.js').create()
+    queue = this.requireOnce('sys', 'Queue.js').create()
     
     queue.enqueue(next => process.stdout.write("\n" + ' ' + this.xterm.color.yellow('【取得 Migration 版本】') + "\n") && next())
 

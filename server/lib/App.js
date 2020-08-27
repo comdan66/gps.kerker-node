@@ -32,6 +32,7 @@ module.exports = function(instance) {
   instance = {
     ...instance.data,
     ...instance.methods,
+    model: {},
 
     path (...argvs)        { return root + argvs.join(Path.sep) },
     end ()                 { return this.db && this.db.close(), this },
@@ -143,20 +144,24 @@ module.exports = function(instance) {
     if (typeof instance[key] == 'function')
       methods[key] = instance[key], delete instance[key], Object.defineProperty(instance, key, { get: _ => methods[key].bind(instance), set: v => methods[key] = v })  
 
-  // 載入顏色、DB、FileSystem Lib
-  instance.xterm    = instance.requireOnce('lib', 'Xterm.js')
-  instance.db       = instance.requireOnce('lib', 'DB.js')
-  instance.fs       = FileSystem
+  // 載入顏色、Model、FileSystem Lib
+  instance.xterm = instance.requireOnce('lib', 'Xterm.js')
+  instance.db    = instance.requireOnce('lib', 'Model.js')
+  instance.fs    = FileSystem
 
   // 環境設定
-  instance.env      = instance.requireOnce('env.js')
+  instance.env   = instance.requireOnce('env.js')
 
   // Lib 設定
   instance.progress = instance.requireOnce('lib', 'Progress.js')
   instance.xterm && instance.progress && (instance.progress.color = instance.xterm.color)
   instance.env   || instance.error('找不到 env.js 檔案，請複製 env.example.js 內容並新增 env.js 檔案後再重試一次！')
-  instance.db    || instance.error('DB 無法取得 Lib！')
+  instance.db    || instance.error('Model 無法取得 Lib！')
   instance.db    && instance.env.mysql ? (instance.db.config = instance.env.mysql) : (instance.db = null)
+
+  // 載入 Models
+  instance.fs.readdirSync(instance.path('model', '')).filter(file => file.match(/\.js$/)).map(file => file.replace(/\.js$/gm, '')).forEach(model => instance.model[model] = instance.requireOnce('model', model + '.js'))
+  instance.model._Migration = class _Migration extends instance.db.Model {}
 
   // 設定 https
   try {

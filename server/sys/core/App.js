@@ -10,7 +10,7 @@ const Path = require('path')
 const FileSystem = require('fs')
 const formidable = require('formidable')
 const querystring = require('querystring')
-const root = Path.resolve(__dirname, ('..' + Path.sep).repeat(1)) + Path.sep
+const root = Path.resolve(__dirname, ('..' + Path.sep).repeat(2)) + Path.sep
 
 const getContentType = request => {
   return request = (request && request.headers && request.headers['content-type'] || '').split(';').map(item => item.trim()).shift(), ['application/json', 'text/plain', 'application/x-www-form-urlencoded', 'multipart/form-data'].includes(request)
@@ -145,15 +145,15 @@ module.exports = function(instance) {
       methods[key] = instance[key], delete instance[key], Object.defineProperty(instance, key, { get: _ => methods[key].bind(instance), set: v => methods[key] = v })  
 
   // 載入顏色、Model、FileSystem Lib
-  instance.xterm = instance.requireOnce('sys', 'Xterm.js')
-  instance.db    = instance.requireOnce('sys', 'Model.js')
+  instance.xterm = instance.requireOnce('sys', 'core', 'Xterm.js')
+  instance.db    = instance.requireOnce('sys', 'core', 'Model.js')
   instance.fs    = FileSystem
 
   // 環境設定
   instance.env   = instance.requireOnce('sys', 'env.js')
 
   // Lib 設定
-  instance.progress = instance.requireOnce('sys', 'Progress.js')
+  instance.progress = instance.requireOnce('sys', 'core', 'Progress.js')
   instance.xterm && instance.progress && (instance.progress.color = instance.xterm.color)
   instance.env   || instance.error('找不到 env.js 檔案，請複製 env.example.js 內容並新增 env.js 檔案後再重試一次！')
   instance.db    || instance.error('Model 無法取得 Lib！')

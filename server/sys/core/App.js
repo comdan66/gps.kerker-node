@@ -12,6 +12,8 @@ const formidable = require('formidable')
 const querystring = require('querystring')
 const root = Path.resolve(__dirname, ('..' + Path.sep).repeat(2)) + Path.sep
 
+let DB = null
+
 const getContentType = request => {
   return request = (request && request.headers && request.headers['content-type'] || '').split(';').map(item => item.trim()).shift(), ['application/json', 'text/plain', 'application/x-www-form-urlencoded', 'multipart/form-data'].includes(request)
     ? request
@@ -23,9 +25,34 @@ const parsePost = text => {
   catch (e) { return null }
 }
 
+const outputJson = item => {
+  if (Array.isArray(item))
+    return item.map(outputJson)
+
+  if (typeof item == 'object' && item instanceof DB)
+    return typeof item.json == 'function'
+      ? item.json()
+      : item.attr
+
+  return item
+}
+
 const parseJson = text => {
   try { return JSON.parse(text) }
   catch (e) { return null }
+}
+
+const outputLog = ({ content = '', status = 200, type = 'html', request: { headers, connection: { remoteAddress: ip } }, response, method, protocol, pathname, url: { query } }) => {
+  if (typeof content == 'object' && content !== null)
+    if (content.toString === undefined)
+      content = JSON.stringify(content), type = 'json'
+    else
+      content = content.toString(), type = 'html'
+
+  return response.writeHead(status, type == 'html' ? { 'Content-Type': 'text/html; charset=UTF-8' } : { 'Content-Type': 'application/json; charset=UTF-8' }),
+    response.write('' + content),
+    response.end(),
+    process.stdout.write("\r" + [new Date(), status, ip, method, protocol, '/' + pathname, query, headers['user-agent'] || ''].join(' ─ ') + "\n")
 }
 
 module.exports = function(instance) {
@@ -63,48 +90,34 @@ module.exports = function(instance) {
       server.on('error', failure)
       server.listen(option.port, _ => success(server))
       server.on('request', (request, response) => {
-        const url = URL.parse(request.url)
-        const params = { post: {}, file: {}, get: parsePost(url.query), raw: '', json: null }
-        const method = request.method.toUpperCase()
+        const url      = URL.parse(request.url)
+        const params   = { post: {}, file: {}, get: parsePost(url.query), raw: '', json: null }
+        const method   = request.method.toUpperCase()
         const pathname = url.pathname.replace(/\/+/gm, '/').replace(/\/$|^\//gm, '')
-        const _output = (content = '', status = 200, type = 'html') => {
-          if (typeof content == 'object' && content !== null)
-            if (content.toString === undefined)
-              content = JSON.stringify(content), type = 'json'
-            else
-              content = content.toString(), type = 'html'
-
-          return response.writeHead(status, type == 'html' ? { 'Content-Type': 'text/html; charset=UTF-8' } : { 'Content-Type': 'application/json; charset=UTF-8' }), response.write('' + content), response.end(), process.stdout.write("\r" + [new Date(), status, request.connection.remoteAddress, method, protocol, '/' + pathname, url.query, request.headers['user-agent'] || ''].join(' ' + this.xterm.color.black('─', true).dim() + ' ') + "\n")
-        }
-        const output = {
-          e500: error => _output('500 Internal Server Error！' + (this.env.status != 'Production' && error ? "\n\n" + (error instanceof Error ? error.stack : error) : ''), 500),
-          text: (content, status) => _output(content, status),
-          html: (content, status) => _output(content, status),
-          json: (obj, status) => {
-            if (typeof obj == 'object' && obj !== null) _output(JSON.stringify(obj), status, 'json')
-            else throw new Error('格式錯誤！')
-          },
+        const info     = { request, response, method, protocol, pathname, params, url }
+        const output   = {
+          e500: error => outputLog({ content: '500 Internal Server Error！' + (this.env.status != 'Production' && error ? "\n\n" + (error instanceof Error ? error.stack : error) : ''), status: 500, type: 'html', ...info }),
+          text: (content, status) => outputLog({ content, status, type: 'html', ...info }),
+          html: (content, status) => outputLog({ content, status, type: 'html', ...info }),
+          json: (obj, status) => { if (typeof obj == 'object' && obj !== null) outputLog({ content: JSON.stringify(outputJson(obj)), status, type: 'json', ...info }); else throw new Error('格式錯誤！') },
         }
 
         switch (getContentType(request)) {
-          default: return closure && closure({ request, response, method, pathname, params, output })
+          default: return closure && closure({ ...info, output })
 
           case 'application/json': case 'text/plain':
             const param = []
             request.on('data', chunk => param.push(chunk))
-            return request.on('end', _ => {
-              params.raw = Buffer.concat(param).toString('utf8')
-              params.json = parseJson(params.raw)
-              return closure && closure({ request, response, method, pathname, params, output })
-            })
+            return request.on('end', _ => closure
+              ? closure({ ...info, output }, params.raw = Buffer.concat(param).toString('utf8'), params.json = parseJson(params.raw))
+              : null)
 
           case 'application/x-www-form-urlencoded': case 'multipart/form-data':
-            return formidable({ multiples: true }).parse(request, (error, fields, files) => {
-              if (error) return closure && closure({ request, response, method, pathname, params, output })
-              params.post = fields
-              params.file = files
-              return closure && closure({ request, response, method, pathname, params, output })
-            });
+            return formidable({ multiples: true }).parse(request, (error, fields, files) => closure
+              ? error
+                ? closure({ ...info, output })
+                : closure({ ...info, output }, params.post = fields, params.file = files)
+              : null);
         }
       })
 
@@ -196,6 +209,9 @@ module.exports = function(instance) {
   // 標題
   instance.title && process.stdout.write("\n" + ' ' + instance.xterm.color.gray('§').dim() + ' ' + instance.xterm.color.gray(instance.title, true) + "\n")
   
+  // 給予此檔案全域
+  DB = instance.db
+
   // 開始
   instance.init(this)
 }

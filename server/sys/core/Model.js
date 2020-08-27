@@ -141,6 +141,9 @@ DB.create = async function(table, object) {
   const keys = []
   const vals = []
 
+  object.updateAt === undefined && (object.updateAt = new Date())
+  object.createAt === undefined && (object.createAt = new Date())
+
   for (let key in object)
     keys.push('`' + key + '`'), vals.push(object[key])
 
@@ -154,6 +157,8 @@ DB.create = async function(table, object) {
 
 DB.all = async function(table, option, isType = true) {
   if (this !== DB) isType = option, option = table, table = this
+  isType === undefined && (isType = true)
+  
   let type = undefined
   if (typeof table == 'function') type = table, table = table.name
   if (type !== undefined && !isType) type = undefined
@@ -216,6 +221,8 @@ DB.update = async function(table, object, option) {
   const keys = []
   const vals = []
 
+  object.updateAt === undefined && (object.updateAt = new Date())
+
   for (let key in object)
     keys.push('`' + key + '` = ?'), vals.push(object[key])
 
@@ -236,10 +243,15 @@ DB.creates = async function(table, objects, length = 10) {
   let type = undefined
   if (typeof table == 'function') type = table, table = table.name
   
+  objects.forEach(object => {
+    object.updateAt === undefined && (object.updateAt = new Date())
+    object.createAt === undefined && (object.createAt = new Date())  
+  })
+
   const pages = []
   while(objects.length) 
     pages.push(objects.splice(0, length))
-  
+
   return new Promise((resolve, reject) => Promise.all(pages.map(objects => new Promise((resolve, reject) => {
     const firstKeys = Object.keys(objects[0])
     const keys = firstKeys.map(key => '`' + key + '`')

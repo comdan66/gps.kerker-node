@@ -17,10 +17,12 @@ const getContentType = request => {
     ? request
     : null
 }
+
 const parsePost = text => {
   try { return { ...querystring.decode(text) } }
   catch (e) { return null }
 }
+
 const parseJson = text => {
   try { return JSON.parse(text) }
   catch (e) { return null }
@@ -160,7 +162,7 @@ module.exports = function(instance) {
   instance.db    && instance.env.mysql ? (instance.db.config = instance.env.mysql) : (instance.db = null)
 
   // 載入 Models
-  instance.fs.readdirSync(instance.path('app', 'model', '')).filter(file => file.match(/\.js$/)).map(file => file.replace(/\.js$/gm, '')).forEach(model => instance.model[model] = instance.requireOnce('model', model + '.js'))
+  instance.fs.readdirSync(instance.path('app', 'model', '')).filter(file => file.match(/\.js$/)).map(file => file.replace(/\.js$/gm, '')).forEach(model => instance.model[model] = instance.requireOnce('app', 'model', model + '.js'))
   instance.model._Migration = class _Migration extends instance.db.Model {}
 
   // 設定 https

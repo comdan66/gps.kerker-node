@@ -27,12 +27,11 @@ const select = obj => {
   if (typeof obj == 'object' && !Array.isArray(obj))
     return isObj(obj).join(',')
 
-  for (let key in obj)
-    if (typeof obj[key] == 'string')
-      select.push(obj[key])
-    else if (typeof obj[key] == 'object')
-      select = select.concat(isObj(obj[key]))
-    else
+  for (let token of obj)
+    if (typeof token == 'string')
+      select.push(token)
+    else if (typeof token == 'object')
+      select = select.concat(isObj(token))
 
   return select.join(',')
 }
@@ -153,10 +152,11 @@ DB.create = async function(table, object) {
     : undefined), reject }))
 }
 
-DB.all = async function(table, option) {
-  if (this !== DB) option = table, table = this
+DB.all = async function(table, option, isType = true) {
+  if (this !== DB) isType = option, option = table, table = this
   let type = undefined
   if (typeof table == 'function') type = table, table = table.name
+  if (type !== undefined && !isType) type = undefined
 
   isNaN(option) || (option = { where: option })
   option = option || {}
@@ -175,14 +175,14 @@ DB.all = async function(table, option) {
 
   if (limit || offset) raws.push('LIMIT ' + offset + ',' + limit)
 
-  return new Promise((resolve, reject) => execute({ sql: raws.join(' ') + ';', vals, resolve: results => resolve(type ? results.map(result => new type({ ...result })) : results), reject }))
+  return new Promise((resolve, reject) => execute({ sql: raws.join(' ') + ';', vals, resolve: results => resolve(type ? results.map(result => new type({ ...result })) : results.map(result => ({ ...result }))), reject }))
 }
 
-DB.one = async function(table, option) {
-  if (this !== DB) option = table, table = this
+DB.one = async function(table, option, isType = true) {
+  if (this !== DB) isType = option, option = table, table = this
   isNaN(option) || (option = { where: option })
   option = option || {}, option.limit = 1
-  return (await DB.all(table, option)).shift()
+  return (await DB.all(table, option, isType)).shift()
 }
 
 DB.delete = async function(table, option) {

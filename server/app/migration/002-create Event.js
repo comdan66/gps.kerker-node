@@ -12,8 +12,8 @@ module.exports = {
     db.attr('deviceId').int().unsigned().notNull().default(0).comment('Device ID')
     
     db.attr('title').varchar(190).collate('utf8mb4_unicode_ci').notNull().comment('標題')
-    db.attr('length').decimal(7, 2).default(0).comment('長度，單位為公里')
-    db.attr('elapsed').int().unsigned().notNull().default(0).comment('耗時，單位為秒')
+    db.attr('length').decimal(7, 2).default(null).comment('長度，單位為公里')
+    db.attr('elapsed').int().unsigned().default(null).comment('耗時，單位為秒')
     db.attr('status').enum('moving', 'finished', 'error').notNull().default('moving').collate('utf8mb4_unicode_ci').comment('狀態')
 
     db.attr('updateAt').datetime().notNull().default('CURRENT_TIMESTAMP').on('update', 'CURRENT_TIMESTAMP').comment('更新時間')

@@ -59,9 +59,9 @@ require('./sys/core/App')({
       ' ' + this.xterm.color.yellow('【以下為紀錄】'),,
       ].join("\n"))))
 
-    setInterval(_ => {
-      console.error('=> ', process.memoryUsage().heapUsed);
-    }, 1 * 1000)
+    // setInterval(_ => {
+    //   console.error('=> ', process.memoryUsage().heapUsed);
+    // }, 1 * 1000)
     
   }
 })

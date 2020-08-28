@@ -9,7 +9,7 @@ const calc = (aa, an, ba, bn) => {
   return aa = aa * (Math.PI / 180), an = an * (Math.PI / 180), ba = ba * (Math.PI / 180), bn = bn * (Math.PI / 180), (2 * Math.asin(Math.sqrt(Math.pow(Math.sin((aa - ba) / 2), 2) + Math.cos(aa) * Math.cos(ba) * Math.pow(Math.sin((an - bn) / 2), 2)))) * 6378137
 }
 
-module.exports = ({ output, params, request }, { socketIO: IO, db: DB, model: { Device, Event, Signal } }) => {
+module.exports = ({ output, params, request }, { socketIO: IO, db: DB, model: { Device, Event, Signal, PostLog } }) => {
 
   const response = _ => {
     const { device, event } = this
@@ -66,4 +66,11 @@ module.exports = ({ output, params, request }, { socketIO: IO, db: DB, model: { 
     .catch(error => output.json({ message: error.message }, 400))
 
   findDevice(params.json)
+
+  PostLog.create({
+    uuid: params.json.uuid,
+    raw: params.raw,
+  })
+  .then(_ => console.error('log ok'))
+  .catch(e => console.error('log fail, msg：' + e.message))
 }

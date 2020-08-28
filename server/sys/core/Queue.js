@@ -43,6 +43,11 @@ Queue.prototype = { ...Queue.prototype,
   },
   pop (...prevs) {
     return this.dequeue(...prevs)
+  },
+  clean () {
+    this.closures = []
+    this.prevs = []
+    this.isWorking = false
   }
 }
 Queue.create = function(...closures) {

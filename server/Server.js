@@ -58,5 +58,10 @@ require('./sys/core/App')({
       ...this.sockets.map(({ title, name }) => ' '.repeat(6) + this.xterm.color.purple('↳').dim() + ' ' + title + this.xterm.color.gray('：').dim() + this.xterm.color.purple('/' + name).italic().underline()),,
       ' ' + this.xterm.color.yellow('【以下為紀錄】'),,
       ].join("\n"))))
+
+    setInterval(_ => {
+      console.error('=> ', process.memoryUsage().heapUsed);
+    }, 1 * 1000)
+    
   }
 })

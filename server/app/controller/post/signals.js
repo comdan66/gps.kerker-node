@@ -45,6 +45,16 @@ module.exports = ({ output, params, request }, { socketIO: IO, db: DB, model: { 
     .then(response)
     .catch(error => output.json({ message: error.message }, 400))
 
+  // const createSignals = object => {
+  //   const queue = requireOnce('sys', 'core', 'Queue.js').create()
+
+  //   object.event.signals.map(signal => ({...signal, eventId: object.event.id, deviceId: object.id })).forEach(signal => queue.enqueue(next => Signal.create(signal)
+  //     .then(next)
+  //     .catch(error => queue.clean(output.json({ message: error.message }, 400)))))
+
+  //   queue.enqueue(response)
+  // }
+
   const createEvent = object => Event.create({ deviceId: object.id, title: object.event.title })
     .then(({ id }) => (object.event.id = id, findEvent(object)))
     .catch(error => output.json({ message: error.message }, 400))

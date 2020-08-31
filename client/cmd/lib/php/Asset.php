@@ -40,7 +40,7 @@ namespace HTML {
       $strs = [];
       $prev = [
         \HTML\Script("window.ENV = '" . ENVIRONMENT . "';")->type('text/javascript'),
-        \HTML\Script("window.SOCKET = '" . SOCKET . "';")->type('text/javascript')
+        \HTML\Script("window.SOCKET = '" . SOCKET . "';")->type('text/javascript'),
         \HTML\Script("window.API = '" . API . "';")->type('text/javascript')
       ];
       

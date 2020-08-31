@@ -61,8 +61,9 @@ module.exports = {
     minify: true,
     autoOpenFolder: true,
 
-    jsPresets: [ // JS minify 時外加的轉譯
+    jsCover: [ // JS minify 時外加的轉譯
       '@babel/preset-env',
+      ['minify', { builtIns: false }]
     ],
 
 

@@ -148,7 +148,7 @@ module.exports = (app, closure) => {
   queue.enqueue((next, files) => Progress.block(active1 + ' JavaScript 檔案', Progress.cmd('執行動作', active1 + ' .js files'))
     .total(files.jsFiles.length)
     .doing(progress => filesDir(progress, files.jsFiles, (file, error) => {
-      try { FileSystem.writeFileSync(file.dist, Babel.transformSync(FileSystem.readFileSync(file.src, 'utf8'), { presets: [...App.config.build.jsPresets, 'minify'] }).code, 'utf8') }
+      try { FileSystem.writeFileSync(file.dist, Babel.transformSync(FileSystem.readFileSync(file.src, 'utf8'), { presets: App.config.build.jsCover }).code, 'utf8') }
       catch (e) { error(e) }
     }))
     .go(_ => next(files)))

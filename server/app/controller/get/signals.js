@@ -10,13 +10,18 @@ module.exports = ({ output: { json }, params: { get: { id } } }, { env: { google
     ? Event.one(id)
       .then(event => event
         ? event.status == 'finished'
-          ? Signal.all({ select: { latitude: 'lat', longitude: 'lng', horizontalAccuracy: 'acc', speed: 'speed', course: 'course', timeAt: 'timeAt' }, where: { raw: 'eventId = ? AND enable = ? AND horizontalAccuracy < ?', vals: [event.id, 'yes', 20] }, order: 'timeAt ASC' }, false)
+          ? Signal.all({ select: { latitude: 'lat', longitude: 'lng', horizontalAccuracy: 'acc', speed: 'speed', course: 'course', timeAt: 'timeAt' }, where: { raw: 'eventId = ? AND enable = ?', vals: [event.id, 'yes'] }, order: 'timeAt ASC' }, false)
             .then(signals => json({
-              keys, signals: signals.map(signal => ({
+              keys, event: {
+                title: event.title,
+                length: event.length,
+                elapsed: event.elapsed,
+              },
+              signals: signals.map(signal => ({
                 lat: signal.lat,
                 lng: signal.lng,
                 acc: signal.acc,
-                speed: signal.speed,
+                speed: isNaN(signal.speed) ? null : signal.speed * 3.6,
                 course: signal.course,
                 timeAt: signal.timeAt,
               }))

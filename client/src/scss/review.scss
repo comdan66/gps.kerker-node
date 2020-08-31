@@ -63,7 +63,7 @@
   }
 }
 
-#online, #length {
+#title, #elapsed, #speed, #length, #now-speed, #now-length {
   @extend %-user-select-none;
   position: absolute;
   
@@ -106,15 +106,13 @@
   }
 
   &:before {
-    content: '線上有';
     margin-right: 3px;
   }
   &:after {
-    content: '人觀看';
     margin-left: 3px;
   }
 }
-#online {
+#title {
   top: 16px;
   left: 16px;
 
@@ -126,25 +124,110 @@
     top: 12px;
     left: 12px;
   }
-}
 
-#length {
-  bottom: 16px;
+  &:before {
+    content: '名稱：';
+  }
+  &:after {
+  }
+}
+#elapsed {
+  top: 16px + 50px + 16px / 2;
   left: 16px;
 
   @include range-width(0, 750px) {
-    bottom: 10px;
+    top: 10px + 40px + 10px / 2;
     left: 10px;
   }
   @include range-width(750px, 1300px) {
-    bottom: 12px;
+    top: 12px + 44px + 12px / 2;
+    left: 12px;
+  }
+
+  &:before {
+    content: '耗時：';
+  }
+  &:after {
+  }
+}
+#speed {
+  top: 16px + 50px + 16px / 2 + 50px + 16px / 2;
+  left: 16px;
+
+  @include range-width(0, 750px) {
+    top: 10px + 40px + 10px / 2 + 40px + 10px / 2;
+    left: 10px;
+  }
+  @include range-width(750px, 1300px) {
+    top: 12px + 44px + 12px / 2 + 44px + 12px / 2;
+    left: 12px;
+  }
+
+  &:before {
+    content: '均速：';
+  }
+  &:after {
+    content: '公里/小時';
+  }
+}
+
+#length {
+  top: 16px + 50px + 16px / 2 + 50px + 16px / 2 + 50px + 16px / 2;
+  left: 16px;
+
+  @include range-width(0, 750px) {
+    top: 10px + 40px + 10px / 2 + 40px + 10px / 2 + 40px + 10px / 2;
+    left: 10px;
+  }
+  @include range-width(750px, 1300px) {
+    top: 12px + 44px + 12px / 2 + 44px + 12px / 2 + 44px + 12px / 2;
     left: 12px;
   }
   &:before {
-    content: '累計';
+    content: '里程：';
   }
   &:after {
     content: '公里';
+  }
+}
+#now-length {
+  bottom: 16px + 16px / 2 + 50px;
+  right: 16px + 80px + 16px / 2;
+
+  @include range-width(0, 750px) {
+    bottom: 10px + 10px / 2 + 40px;
+    right: 10px + 80px + 10px / 2;
+  }
+
+  @include range-width(750px, 1300px) {
+    bottom: 12px + 12px / 2 + 44px;
+    right: 12px + 80px + 12px / 2;
+  }
+  &:before {
+    content: '累計：';
+  }
+  &:after {
+    content: '公里';
+  }
+}
+#now-speed {
+  bottom: 16px;
+  right: 16px + 80px + 16px / 2;
+
+  @include range-width(0, 750px) {
+    bottom: 10px;
+    right: 10px + 80px + 10px / 2;
+  }
+  @include range-width(750px, 1300px) {
+    bottom: 12px;
+    right: 12px + 80px + 12px / 2;
+  }
+
+  &:before {
+    content: '時速：';
+  }
+  &:after {
+    content: '公里/小時';
   }
 }
 
@@ -152,6 +235,62 @@
   position: absolute;
   display: inline-block;
   color: white;
-  background-color: rgba(234, 67, 53, .30);
+  // background-color: rgb(234, 67, 53);
   @include border-radius(50%);
+
+  &.o100 { @include opacity(1); }
+  &.o80 { @include opacity(.8); }
+  &.o60 { @include opacity(.6); }
+  &.o40 { @include opacity(.4); }
+  &.o20 { @include opacity(.2); }
+  &.o10 { @include opacity(.1); }
+}
+
+
+#speeds {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 5;
+
+  display: inline-block;
+  width: 80px;
+  
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 1.00);
+  @include border-radius(3px);
+  @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
+  @include opacity(1);
+  @include transition(height .3s, width .3s);
+
+  $h: 28px;
+  &.n10 {
+    height: $h * 10;
+  }
+  b {
+    display: block;
+    height: $h;
+    line-height: $h;
+    padding: 0;
+    font-size: 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, .7);
+    &:before, &:after {
+      display: inline-block;
+      margin: 0 3px;
+      color: rgba(255, 255, 255, 1);
+    }
+    &:before { content: attr(a) }
+    &:after { content: attr(b) }
+  }
+  
+  @include range-width(0, 750px) {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  @include range-width(750px, 1300px) {
+    right: 12px;
+    bottom: 12px;
+  }
 }

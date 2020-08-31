@@ -35,6 +35,10 @@ const outputJson = item => {
       ? item.json()
       : item.attr
 
+  if (typeof item == 'object' && item !== null)
+    for (const key in item)
+      item[key] = outputJson(item[key])
+
   return item
 }
 

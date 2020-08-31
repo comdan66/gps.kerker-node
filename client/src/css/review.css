@@ -2,7 +2,7 @@
 @font-face { font-family: "icon"; src: url('../icon/icomoon/fonts/icomoon.eot?1578659854') format('embedded-opentype'), url('../icon/icomoon/fonts/icomoon.woff?1578659854') format('woff'), url('../icon/icomoon/fonts/icomoon.ttf?1578659854') format('truetype'), url('../icon/icomoon/fonts/icomoon.svg?1578659854') format('svg'); }
 *, *:after, *:before { vertical-align: top; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; -moz-osx-font-smoothing: subpixel-antialiased; -webkit-font-smoothing: subpixel-antialiased; -moz-font-smoothing: subpixel-antialiased; -ms-font-smoothing: subpixel-antialiased; -o-font-smoothing: subpixel-antialiased; }
 
-#online, #length { -moz-user-select: -moz-none; -ms-user-select: none; -webkit-user-select: none; user-select: none; }
+#title, #elapsed, #speed, #length, #now-speed, #now-length { -moz-user-select: -moz-none; -ms-user-select: none; -webkit-user-select: none; user-select: none; }
 
 @-moz-keyframes rotate { 0% { -moz-transform: rotate(0); transform: rotate(0); }
   100% { -moz-transform: rotate(360deg); transform: rotate(360deg); } }
@@ -19,23 +19,62 @@
 #error { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: inline-block; width: 100%; height: 100%; background-color: #f2f1f0; z-index: 999; }
 #error span { position: absolute; left: 50%; top: 50%; display: inline-block; padding: 4px 12px; -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
 
-#online, #length { position: absolute; display: inline-block; height: 50px; line-height: 50px; font-size: 20px; z-index: 5; cursor: pointer; padding: 0 16px; color: #6f6f6f; background-color: rgba(255, 255, 255, 0.9); -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); }
-#online:before, #online:after, #length:before, #length:after { font-size: 18px; display: inline-block; }
-@media screen and (max-width: 749px) and (min-width: 0) { #online, #length { height: 40px; line-height: 40px; font-size: 16px; }
-  #online:before, #online:after, #length:before, #length:after { font-size: 14px; } }
-@media screen and (max-width: 1299px) and (min-width: 750px) { #online, #length { height: 44px; line-height: 44px; font-size: 18px; }
-  #online:before, #online:after, #length:before, #length:after { font-size: 16px; } }
-#online:before, #length:before { content: '線上有'; margin-right: 3px; }
-#online:after, #length:after { content: '人觀看'; margin-left: 3px; }
+#title, #elapsed, #speed, #length, #now-speed, #now-length { position: absolute; display: inline-block; height: 50px; line-height: 50px; font-size: 20px; z-index: 5; cursor: pointer; padding: 0 16px; color: #6f6f6f; background-color: rgba(255, 255, 255, 0.9); -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); }
+#title:before, #title:after, #elapsed:before, #elapsed:after, #speed:before, #speed:after, #length:before, #length:after, #now-speed:before, #now-speed:after, #now-length:before, #now-length:after { font-size: 18px; display: inline-block; }
+@media screen and (max-width: 749px) and (min-width: 0) { #title, #elapsed, #speed, #length, #now-speed, #now-length { height: 40px; line-height: 40px; font-size: 16px; }
+  #title:before, #title:after, #elapsed:before, #elapsed:after, #speed:before, #speed:after, #length:before, #length:after, #now-speed:before, #now-speed:after, #now-length:before, #now-length:after { font-size: 14px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #title, #elapsed, #speed, #length, #now-speed, #now-length { height: 44px; line-height: 44px; font-size: 18px; }
+  #title:before, #title:after, #elapsed:before, #elapsed:after, #speed:before, #speed:after, #length:before, #length:after, #now-speed:before, #now-speed:after, #now-length:before, #now-length:after { font-size: 16px; } }
+#title:before, #elapsed:before, #speed:before, #length:before, #now-speed:before, #now-length:before { margin-right: 3px; }
+#title:after, #elapsed:after, #speed:after, #length:after, #now-speed:after, #now-length:after { margin-left: 3px; }
 
-#online { top: 16px; left: 16px; }
-@media screen and (max-width: 749px) and (min-width: 0) { #online { top: 10px; left: 10px; } }
-@media screen and (max-width: 1299px) and (min-width: 750px) { #online { top: 12px; left: 12px; } }
+#title { top: 16px; left: 16px; }
+@media screen and (max-width: 749px) and (min-width: 0) { #title { top: 10px; left: 10px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #title { top: 12px; left: 12px; } }
+#title:before { content: '名稱：'; }
 
-#length { bottom: 16px; left: 16px; }
-@media screen and (max-width: 749px) and (min-width: 0) { #length { bottom: 10px; left: 10px; } }
-@media screen and (max-width: 1299px) and (min-width: 750px) { #length { bottom: 12px; left: 12px; } }
-#length:before { content: '累計'; }
+#elapsed { top: 74px; left: 16px; }
+@media screen and (max-width: 749px) and (min-width: 0) { #elapsed { top: 55px; left: 10px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #elapsed { top: 62px; left: 12px; } }
+#elapsed:before { content: '耗時：'; }
+
+#speed { top: 132px; left: 16px; }
+@media screen and (max-width: 749px) and (min-width: 0) { #speed { top: 100px; left: 10px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #speed { top: 112px; left: 12px; } }
+#speed:before { content: '均速：'; }
+#speed:after { content: '公里/小時'; }
+
+#length { top: 190px; left: 16px; }
+@media screen and (max-width: 749px) and (min-width: 0) { #length { top: 145px; left: 10px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #length { top: 162px; left: 12px; } }
+#length:before { content: '里程：'; }
 #length:after { content: '公里'; }
 
-.log { position: absolute; display: inline-block; color: white; background-color: rgba(234, 67, 53, 0.3); -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; }
+#now-length { bottom: 74px; right: 104px; }
+@media screen and (max-width: 749px) and (min-width: 0) { #now-length { bottom: 55px; right: 95px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #now-length { bottom: 62px; right: 98px; } }
+#now-length:before { content: '累計：'; }
+#now-length:after { content: '公里'; }
+
+#now-speed { bottom: 16px; right: 104px; }
+@media screen and (max-width: 749px) and (min-width: 0) { #now-speed { bottom: 10px; right: 95px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #now-speed { bottom: 12px; right: 98px; } }
+#now-speed:before { content: '時速：'; }
+#now-speed:after { content: '公里/小時'; }
+
+.log { position: absolute; display: inline-block; color: white; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; }
+.log.o100 { filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false); opacity: 1; }
+.log.o80 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80); opacity: 0.8; }
+.log.o60 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60); opacity: 0.6; }
+.log.o40 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40); opacity: 0.4; }
+.log.o20 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20); opacity: 0.2; }
+.log.o10 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10); opacity: 0.1; }
+
+#speeds { position: fixed; right: 16px; bottom: 16px; z-index: 5; display: inline-block; width: 80px; overflow: hidden; background-color: white; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false); opacity: 1; -moz-transition: height 0.3s, width 0.3s; -o-transition: height 0.3s, width 0.3s; -webkit-transition: height 0.3s, width 0.3s; transition: height 0.3s, width 0.3s; }
+#speeds.n10 { height: 280px; }
+#speeds b { display: block; height: 28px; line-height: 28px; padding: 0; font-size: 10px; text-align: center; color: rgba(255, 255, 255, 0.7); }
+#speeds b:before, #speeds b:after { display: inline-block; margin: 0 3px; color: white; }
+#speeds b:before { content: attr(a); }
+#speeds b:after { content: attr(b); }
+@media screen and (max-width: 749px) and (min-width: 0) { #speeds { right: 10px; bottom: 10px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #speeds { right: 12px; bottom: 12px; } }

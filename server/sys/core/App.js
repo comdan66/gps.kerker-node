@@ -13,6 +13,7 @@ const querystring = require('querystring')
 const root = Path.resolve(__dirname, ('..' + Path.sep).repeat(2)) + Path.sep
 
 let DB = null
+let CORS = {}
 
 const getContentType = request => {
   return request = (request && request.headers && request.headers['content-type'] || '').split(';').map(item => item.trim()).shift(), ['application/json', 'text/plain', 'application/x-www-form-urlencoded', 'multipart/form-data'].includes(request)
@@ -49,7 +50,9 @@ const outputLog = ({ content = '', status = 200, type = 'html', request: { heade
     else
       content = content.toString(), type = 'html'
 
-  return response.writeHead(status, type == 'html' ? { 'Content-Type': 'text/html; charset=UTF-8' } : { 'Content-Type': 'application/json; charset=UTF-8' }),
+  return response.writeHead(status, type == 'html'
+      ? { 'Content-Type': 'text/html; charset=UTF-8', ...CORS }
+      : { 'Content-Type': 'application/json; charset=UTF-8', ...CORS }),
     response.write('' + content),
     response.end(),
     process.stdout.write("\r" + [new Date(), status, ip, method, protocol, '/' + pathname, query, headers['user-agent'] || ''].join(' ─ ') + "\n")
@@ -211,6 +214,7 @@ module.exports = function(instance) {
   
   // 給予此檔案全域
   DB = instance.db
+  CORS = instance.env.cors
 
   // 開始
   instance.init(this)

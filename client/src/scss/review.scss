@@ -63,11 +63,9 @@
   }
 }
 
-#online {
+#online, #length {
   @extend %-user-select-none;
   position: absolute;
-  top: 16px;
-  left: 16px;
   
   display: inline-block;
   height: 50px;
@@ -93,8 +91,6 @@
     height: 40px;
     line-height: 40px;
 
-    top: 10px;
-    left: 10px;
     font-size: 16px;
     &:before, &:after {
       font-size: 14px;
@@ -103,8 +99,6 @@
   @include range-width(750px, 1300px) {
     height: 44px;
     line-height: 44px;
-    top: 12px;
-    left: 12px;
     font-size: 18px;
     &:before, &:after {
       font-size: 16px;
@@ -120,7 +114,41 @@
     margin-left: 3px;
   }
 }
-.pp {
+#online {
+  top: 16px;
+  left: 16px;
+
+  @include range-width(0, 750px) {
+    top: 10px;
+    left: 10px;
+  }
+  @include range-width(750px, 1300px) {
+    top: 12px;
+    left: 12px;
+  }
+}
+
+#length {
+  bottom: 16px;
+  left: 16px;
+
+  @include range-width(0, 750px) {
+    bottom: 10px;
+    left: 10px;
+  }
+  @include range-width(750px, 1300px) {
+    bottom: 12px;
+    left: 12px;
+  }
+  &:before {
+    content: '累計';
+  }
+  &:after {
+    content: '公里';
+  }
+}
+
+.log {
   position: absolute;
   display: inline-block;
   color: white;

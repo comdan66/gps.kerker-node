@@ -24,10 +24,12 @@ $argv = getArgv(array_slice($argv, 1), [
 // 依環境定義常數
 switch (ENVIRONMENT) {
   case 'Development':
+    define('API', 'http://dev-api-gps.kerker.tw:8099/');
     define('SOCKET', 'http://127.0.0.1:8099/');
     break;
 
   case 'Production':
+    define('API', 'https://api-gps.kerker.tw/');
     define('SOCKET', 'https://api-gps.kerker.tw/');
     break;
 }

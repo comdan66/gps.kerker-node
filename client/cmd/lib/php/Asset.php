@@ -41,6 +41,7 @@ namespace HTML {
       $prev = [
         \HTML\Script("window.ENV = '" . ENVIRONMENT . "';")->type('text/javascript'),
         \HTML\Script("window.SOCKET = '" . SOCKET . "';")->type('text/javascript')
+        \HTML\Script("window.API = '" . API . "';")->type('text/javascript')
       ];
       
       if (in_array(ENVIRONMENT, ['Development', 'Testing'])) {

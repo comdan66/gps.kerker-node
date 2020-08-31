@@ -35,7 +35,10 @@ module.exports = ({ output, params, request }, { socketIO: IO, db: DB, model: { 
         event.length = Math.round(elapsed.reduce((a, b) => a + b, 0) / 1000 * 100) / 100
 
         event.save()
-          .then(_ => output.json({ id: event.id, elapsed: event.elapsed, length: event.length }))
+          .then(_ => {
+            output.json({ id: event.id, elapsed: event.elapsed, length: event.length })
+            IO.get('live').fetch(event.id)
+          })
           .catch(error => output.json({ message: error.message }, 400))
       })
       .catch(error => output.json({ message: error.message }, 400))

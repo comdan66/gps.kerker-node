@@ -29,6 +29,8 @@ module.exports = {
     waitForConnections : true, // 無可用連線時是否等待pool連線釋放(預設為true)
     connectionLimit : 10 // 連線池可建立的總連線數上限(預設最多為10個連線數)
   },
+  
+  cors: {},
 
   s3: {
     domain: '',

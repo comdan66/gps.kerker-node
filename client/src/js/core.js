@@ -81,3 +81,27 @@ const Load = {
   mount (option) { return document.body.appendChild(new Vue(option).$mount().$el) },
   init (option) { return typeof option == 'function' ? option() : $(_ => this.mount(option)) }
 }
+
+// Params
+const Params = function(sets, query = false) {
+  (query ? window.location.href.split('?') : window.location.hash.substr(1).split('&')).forEach(val => {
+    const splitter = val.split('=')
+    if (splitter.length != 2) return
+
+    const k = decodeURIComponent(splitter[0])
+    const v = decodeURIComponent(splitter[1])
+
+    if (k.slice(-2) == '[]')
+      if (!Params[k = k.slice(0, -2)])
+        Params[k] = [v]
+      else
+        Params[k].push(v)
+    else
+      Params[k] = v
+  })
+
+  for (var k in sets)
+    Params[k] = Params[k] === undefined ? sets[k] : Params[k]
+
+  return Params
+}

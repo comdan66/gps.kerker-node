@@ -150,7 +150,8 @@
   &:after {
   }
 }
-#speed {
+
+#length {
   top: 16px + 50px + 16px / 2 + 50px + 16px / 2;
   left: 16px;
 
@@ -160,27 +161,6 @@
   }
   @include range-width(750px, 1300px) {
     top: 12px + 44px + 12px / 2 + 44px + 12px / 2;
-    left: 12px;
-  }
-
-  &:before {
-    content: '均速：';
-  }
-  &:after {
-    content: '公里/小時';
-  }
-}
-
-#length {
-  top: 16px + 50px + 16px / 2 + 50px + 16px / 2 + 50px + 16px / 2;
-  left: 16px;
-
-  @include range-width(0, 750px) {
-    top: 10px + 40px + 10px / 2 + 40px + 10px / 2 + 40px + 10px / 2;
-    left: 10px;
-  }
-  @include range-width(750px, 1300px) {
-    top: 12px + 44px + 12px / 2 + 44px + 12px / 2 + 44px + 12px / 2;
     left: 12px;
   }
   &:before {
@@ -231,21 +211,6 @@
   }
 }
 
-.log {
-  position: absolute;
-  display: inline-block;
-  color: white;
-  // background-color: rgb(234, 67, 53);
-  @include border-radius(50%);
-
-  &.o100 { @include opacity(1); }
-  &.o80 { @include opacity(.8); }
-  &.o60 { @include opacity(.6); }
-  &.o40 { @include opacity(.4); }
-  &.o20 { @include opacity(.2); }
-  &.o10 { @include opacity(.1); }
-}
-
 
 #speeds {
   position: fixed;
@@ -292,5 +257,52 @@
   @include range-width(750px, 1300px) {
     right: 12px;
     bottom: 12px;
+  }
+}
+
+.log {
+  position: absolute;
+  display: inline-block;
+  color: white;
+  // background-color: rgb(234, 67, 53);
+  @include border-radius(50%);
+
+  &.o100 { @include opacity(1); }
+  &.o80 { @include opacity(.8); }
+  &.o60 { @include opacity(.6); }
+  &.o40 { @include opacity(.4); }
+  &.o20 { @include opacity(.2); }
+  &.o10 { @include opacity(.1); }
+}
+
+.signal {
+  position: absolute;
+  display: inline-block;
+  color: white;
+  border: 1px solid white;
+  @include border-radius(50%);
+
+  @include rotate(0);
+  @for $i from 0 through 36 {
+    &.course-#{$i} {
+      @include rotate($i * 10deg);
+    }
+  }
+
+  &:before {
+    content: '^';
+    text-align: center;
+
+    position: absolute;
+    left: calc(50% - #{(16px / 2)});
+    top: calc(50% - #{(16px / 2)});
+
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 24px;
+
+    font-size: 24px;
+    @include scale(.8);
   }
 }

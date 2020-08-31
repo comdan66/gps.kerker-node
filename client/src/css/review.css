@@ -38,15 +38,9 @@
 @media screen and (max-width: 1299px) and (min-width: 750px) { #elapsed { top: 62px; left: 12px; } }
 #elapsed:before { content: '耗時：'; }
 
-#speed { top: 132px; left: 16px; }
-@media screen and (max-width: 749px) and (min-width: 0) { #speed { top: 100px; left: 10px; } }
-@media screen and (max-width: 1299px) and (min-width: 750px) { #speed { top: 112px; left: 12px; } }
-#speed:before { content: '均速：'; }
-#speed:after { content: '公里/小時'; }
-
-#length { top: 190px; left: 16px; }
-@media screen and (max-width: 749px) and (min-width: 0) { #length { top: 145px; left: 10px; } }
-@media screen and (max-width: 1299px) and (min-width: 750px) { #length { top: 162px; left: 12px; } }
+#length { top: 132px; left: 16px; }
+@media screen and (max-width: 749px) and (min-width: 0) { #length { top: 100px; left: 10px; } }
+@media screen and (max-width: 1299px) and (min-width: 750px) { #length { top: 112px; left: 12px; } }
 #length:before { content: '里程：'; }
 #length:after { content: '公里'; }
 
@@ -62,14 +56,6 @@
 #now-speed:before { content: '時速：'; }
 #now-speed:after { content: '公里/小時'; }
 
-.log { position: absolute; display: inline-block; color: white; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; }
-.log.o100 { filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false); opacity: 1; }
-.log.o80 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80); opacity: 0.8; }
-.log.o60 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60); opacity: 0.6; }
-.log.o40 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40); opacity: 0.4; }
-.log.o20 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20); opacity: 0.2; }
-.log.o10 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10); opacity: 0.1; }
-
 #speeds { position: fixed; right: 16px; bottom: 16px; z-index: 5; display: inline-block; width: 80px; overflow: hidden; background-color: white; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false); opacity: 1; -moz-transition: height 0.3s, width 0.3s; -o-transition: height 0.3s, width 0.3s; -webkit-transition: height 0.3s, width 0.3s; transition: height 0.3s, width 0.3s; }
 #speeds.n10 { height: 280px; }
 #speeds b { display: block; height: 28px; line-height: 28px; padding: 0; font-size: 10px; text-align: center; color: rgba(255, 255, 255, 0.7); }
@@ -78,3 +64,51 @@
 #speeds b:after { content: attr(b); }
 @media screen and (max-width: 749px) and (min-width: 0) { #speeds { right: 10px; bottom: 10px; } }
 @media screen and (max-width: 1299px) and (min-width: 750px) { #speeds { right: 12px; bottom: 12px; } }
+
+.log { position: absolute; display: inline-block; color: white; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; }
+.log.o100 { filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false); opacity: 1; }
+.log.o80 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80); opacity: 0.8; }
+.log.o60 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60); opacity: 0.6; }
+.log.o40 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40); opacity: 0.4; }
+.log.o20 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20); opacity: 0.2; }
+.log.o10 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10); opacity: 0.1; }
+
+.signal { position: absolute; display: inline-block; color: white; border: 1px solid white; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; -moz-transform: rotate(0); -ms-transform: rotate(0); -webkit-transform: rotate(0); transform: rotate(0); }
+.signal.course-0 { -moz-transform: rotate(0deg); -ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+.signal.course-1 { -moz-transform: rotate(10deg); -ms-transform: rotate(10deg); -webkit-transform: rotate(10deg); transform: rotate(10deg); }
+.signal.course-2 { -moz-transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); transform: rotate(20deg); }
+.signal.course-3 { -moz-transform: rotate(30deg); -ms-transform: rotate(30deg); -webkit-transform: rotate(30deg); transform: rotate(30deg); }
+.signal.course-4 { -moz-transform: rotate(40deg); -ms-transform: rotate(40deg); -webkit-transform: rotate(40deg); transform: rotate(40deg); }
+.signal.course-5 { -moz-transform: rotate(50deg); -ms-transform: rotate(50deg); -webkit-transform: rotate(50deg); transform: rotate(50deg); }
+.signal.course-6 { -moz-transform: rotate(60deg); -ms-transform: rotate(60deg); -webkit-transform: rotate(60deg); transform: rotate(60deg); }
+.signal.course-7 { -moz-transform: rotate(70deg); -ms-transform: rotate(70deg); -webkit-transform: rotate(70deg); transform: rotate(70deg); }
+.signal.course-8 { -moz-transform: rotate(80deg); -ms-transform: rotate(80deg); -webkit-transform: rotate(80deg); transform: rotate(80deg); }
+.signal.course-9 { -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform: rotate(90deg); }
+.signal.course-10 { -moz-transform: rotate(100deg); -ms-transform: rotate(100deg); -webkit-transform: rotate(100deg); transform: rotate(100deg); }
+.signal.course-11 { -moz-transform: rotate(110deg); -ms-transform: rotate(110deg); -webkit-transform: rotate(110deg); transform: rotate(110deg); }
+.signal.course-12 { -moz-transform: rotate(120deg); -ms-transform: rotate(120deg); -webkit-transform: rotate(120deg); transform: rotate(120deg); }
+.signal.course-13 { -moz-transform: rotate(130deg); -ms-transform: rotate(130deg); -webkit-transform: rotate(130deg); transform: rotate(130deg); }
+.signal.course-14 { -moz-transform: rotate(140deg); -ms-transform: rotate(140deg); -webkit-transform: rotate(140deg); transform: rotate(140deg); }
+.signal.course-15 { -moz-transform: rotate(150deg); -ms-transform: rotate(150deg); -webkit-transform: rotate(150deg); transform: rotate(150deg); }
+.signal.course-16 { -moz-transform: rotate(160deg); -ms-transform: rotate(160deg); -webkit-transform: rotate(160deg); transform: rotate(160deg); }
+.signal.course-17 { -moz-transform: rotate(170deg); -ms-transform: rotate(170deg); -webkit-transform: rotate(170deg); transform: rotate(170deg); }
+.signal.course-18 { -moz-transform: rotate(180deg); -ms-transform: rotate(180deg); -webkit-transform: rotate(180deg); transform: rotate(180deg); }
+.signal.course-19 { -moz-transform: rotate(190deg); -ms-transform: rotate(190deg); -webkit-transform: rotate(190deg); transform: rotate(190deg); }
+.signal.course-20 { -moz-transform: rotate(200deg); -ms-transform: rotate(200deg); -webkit-transform: rotate(200deg); transform: rotate(200deg); }
+.signal.course-21 { -moz-transform: rotate(210deg); -ms-transform: rotate(210deg); -webkit-transform: rotate(210deg); transform: rotate(210deg); }
+.signal.course-22 { -moz-transform: rotate(220deg); -ms-transform: rotate(220deg); -webkit-transform: rotate(220deg); transform: rotate(220deg); }
+.signal.course-23 { -moz-transform: rotate(230deg); -ms-transform: rotate(230deg); -webkit-transform: rotate(230deg); transform: rotate(230deg); }
+.signal.course-24 { -moz-transform: rotate(240deg); -ms-transform: rotate(240deg); -webkit-transform: rotate(240deg); transform: rotate(240deg); }
+.signal.course-25 { -moz-transform: rotate(250deg); -ms-transform: rotate(250deg); -webkit-transform: rotate(250deg); transform: rotate(250deg); }
+.signal.course-26 { -moz-transform: rotate(260deg); -ms-transform: rotate(260deg); -webkit-transform: rotate(260deg); transform: rotate(260deg); }
+.signal.course-27 { -moz-transform: rotate(270deg); -ms-transform: rotate(270deg); -webkit-transform: rotate(270deg); transform: rotate(270deg); }
+.signal.course-28 { -moz-transform: rotate(280deg); -ms-transform: rotate(280deg); -webkit-transform: rotate(280deg); transform: rotate(280deg); }
+.signal.course-29 { -moz-transform: rotate(290deg); -ms-transform: rotate(290deg); -webkit-transform: rotate(290deg); transform: rotate(290deg); }
+.signal.course-30 { -moz-transform: rotate(300deg); -ms-transform: rotate(300deg); -webkit-transform: rotate(300deg); transform: rotate(300deg); }
+.signal.course-31 { -moz-transform: rotate(310deg); -ms-transform: rotate(310deg); -webkit-transform: rotate(310deg); transform: rotate(310deg); }
+.signal.course-32 { -moz-transform: rotate(320deg); -ms-transform: rotate(320deg); -webkit-transform: rotate(320deg); transform: rotate(320deg); }
+.signal.course-33 { -moz-transform: rotate(330deg); -ms-transform: rotate(330deg); -webkit-transform: rotate(330deg); transform: rotate(330deg); }
+.signal.course-34 { -moz-transform: rotate(340deg); -ms-transform: rotate(340deg); -webkit-transform: rotate(340deg); transform: rotate(340deg); }
+.signal.course-35 { -moz-transform: rotate(350deg); -ms-transform: rotate(350deg); -webkit-transform: rotate(350deg); transform: rotate(350deg); }
+.signal.course-36 { -moz-transform: rotate(360deg); -ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+.signal:before { content: '^'; text-align: center; position: absolute; left: calc(50% - 8px); top: calc(50% - 8px); display: inline-block; width: 16px; height: 16px; line-height: 24px; font-size: 24px; -moz-transform: scale(0.8, 0.8); -ms-transform: scale(0.8, 0.8); -webkit-transform: scale(0.8, 0.8); transform: scale(0.8, 0.8); }

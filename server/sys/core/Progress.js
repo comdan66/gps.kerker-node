@@ -46,22 +46,22 @@ const Progress = {
   index: 0,
   count: 0,
   lines: [],
-  color: null,
+  xterm: null,
 
   print: (...strs) => process.stdout.write("\r" + strs.join('')),
 
   error (...errors) {
-    Progress.color
-      ? errors.length && this.print("\n" + ' ' + Progress.color.red('【錯誤訊息】') + "\n" + errors.map(error => ' '.repeat(3) + Progress.color.purple('◉') + ' ' + (error instanceof Error ? error.stack : error) + "\n").join('') + "\n")
+    Progress.xterm
+      ? errors.length && this.print("\n" + ' ' + Progress.xterm.color.red('【錯誤訊息】') + "\n" + errors.map(error => ' '.repeat(3) + Progress.xterm.color.purple('◉') + ' ' + (error instanceof Error ? error.stack : error) + "\n").join('') + "\n")
       : errors.length && this.print("\n" + ' ' + '【錯誤訊息】' + "\n" + errors.map(error => ' '.repeat(3) + '◉' + ' ' + (error instanceof Error ? error.stack : error) + "\n").join('') + "\n")
 
     process.emit('SIGINT')
   },
   doing (...actions) {
     return actions = actions.filter(action => action !== null), actions.length
-      ? Progress.color
-        ? (Progress.lines = actions.map((t, i) => '\x1b[K' + ' '.repeat(3 + (i ? 2 : i * 2)) + t.replace(/(^\s*)/g, '$1' + (i ? Progress.color.purple('↳').dim() : Progress.color.purple('◉')) + ' ')), this.print(Progress.lines.join("\n") + Progress.color.black('…', true).dim() + ' '))
-        : (Progress.lines = actions.map((t, i) => '\x1b[K' + ' '.repeat(3 + (i ? 2 : i * 2)) + t.replace(/(^\s*)/g, '$1' + (i ? '↳' : '◉') + ' ')), this.print(Progress.lines.join("\n") + '…' + ' '))
+      ? Progress.xterm
+        ? (Progress.lines = actions.map((t, i) => '\x1b[K' + ' '.repeat(3 + (i ? 2 : i * 2)) + t.replace(/(^\s*)/g, '$1' + (i ? Progress.xterm.color.purple('↳').dim() : Progress.xterm.color.purple('◉')) + ' ')), this.print(Progress.lines.join("\n") + Progress.xterm.color.black('…', true).dim() + ' '))
+        : (Progress.lines = actions.map((t, i) => ' '.repeat(3 + (i ? 2 : i * 2)) + t.replace(/(^\s*)/g, '$1' + (i ? '↳' : '◉') + ' ')), this.print(Progress.lines.join("\n") + '…' + ' '))
       : this.do(), this
   },
   do () {
@@ -72,12 +72,12 @@ const Progress = {
 
     const lines = [...Progress.lines]
 
-    if (Progress.color)
-      lines[0] += (Progress.count ? Progress.color.gray('(' + Progress.index + '/' + Progress.count + ')').dim() + ' ' + Progress.color.black('─', true).dim() + ' ' + percent() : '') + (text ? ' ' + Progress.color.black('─', true).dim() + ' ' + text : '')
+    if (Progress.xterm)
+      lines[0] += (Progress.count ? Progress.xterm.color.gray('(' + Progress.index + '/' + Progress.count + ')').dim() + ' ' + Progress.xterm.color.black('─', true).dim() + ' ' + percent() : '') + (text ? ' ' + Progress.xterm.color.black('─', true).dim() + ' ' + text : '')
     else
       lines[0] += (Progress.count ? '(' + Progress.index + '/' + Progress.count + ')' + ' ' + '─' + ' ' + percent() : '') + (text ? ' ' + '─' + ' ' + text : '')
 
-    return this.print((lines.length > 1 ? '\x1b[' + (lines.length - 1) + 'A' : '') + "\r" + lines.join("\n")), this
+    return this.print((lines.length > 1 ? Progress.xterm ? '\x1b[' + (lines.length - 1) + 'A' : "\n" : '') + "\r" + lines.join("\n")), this
   },
   clean() {
     return Progress.lines = [], Progress.index = 0, Progress.count = 0, this
@@ -88,13 +88,13 @@ const Progress = {
   success (message = null) {
     return Progress.index = Progress.count,
       message = message === null ? '完成' : message,
-      this.percent(Progress.color ? Progress.color.green(message) : message).clean(),
+      this.percent(Progress.xterm ? Progress.xterm.color.green(message) : message).clean(),
       this.print("\n"),
       this
   },
   failure (message = null, ...error) {
     return message = message === null ? '錯誤' : message,
-      this.percent(Progress.color ? Progress.color.red(message) : message),
+      this.percent(Progress.xterm ? Progress.xterm.color.red(message) : message),
       this.print("\n"),
       error.length && this.error(...error),
       this
@@ -103,8 +103,8 @@ const Progress = {
     return this.success(message)
   },
   cmd (desc, action = null) {
-    if (Progress.color)
-      return Progress.color.gray(desc, true).dim() + (action !== null ? Progress.color.gray('：').dim() + Progress.color.gray(action, true).dim().italic() : '')
+    if (Progress.xterm)
+      return Progress.xterm.color.gray(desc, true).dim() + (action !== null ? Progress.xterm.color.gray('：').dim() + Progress.xterm.color.gray(action, true).dim().italic() : '')
     else
       return desc + (action !== null ? '：' + action : '')
   },

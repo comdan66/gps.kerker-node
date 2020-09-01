@@ -7,22 +7,22 @@
 
 module.exports = ({ env, model: { Device, Event, Signal, PostLog } }, SocketIO, sockets) => ({
   signals (socket, id) {
-    Event.one(id)
-      .then(event => event
-        ? event.status == 'finished'
-          ? Signal.all({ select: { latitude: 'lat', longitude: 'lng', horizontalAccuracy: 'acc' }, where: { raw: 'eventId = ? AND enable = ?', vals: [event.id, 'yes'] }, order: 'timeAt ASC' }, false)
-            .then(signals => socket.emit('signals', signals.map(signal => ({
-              lat: signal.lat,
-              lng: signal.lng,
-              acc: signal.acc,
-              speed: signal.speed,
-              course: signal.course,
-              timeAt: signal.timeAt,
-            }))))
-            .catch(error => socket.emit('displayError', error.message))
-          : socket.emit('displayError', '此活動尚未完成！')
-        : socket.emit('displayError', '此活動不存在！'))
-      .catch(error => socket.emit('displayError', error.message))
+    // Event.one(id)
+    //   .then(event => event
+    //     ? event.status == 'finished'
+    //       ? Signal.all({ select: { latitude: 'lat', longitude: 'lng', horizontalAccuracy: 'acc' }, where: { raw: 'eventId = ? AND enable = ?', vals: [event.id, 'yes'] }, order: 'timeAt ASC' }, false)
+    //         .then(signals => socket.emit('signals', signals.map(signal => ({
+    //           lat: signal.lat,
+    //           lng: signal.lng,
+    //           acc: signal.acc,
+    //           speed: signal.speed,
+    //           course: signal.course,
+    //           timeAt: signal.timeAt,
+    //         }))))
+    //         .catch(error => socket.emit('displayError', error.message))
+    //       : socket.emit('displayError', '此活動尚未完成！')
+    //     : socket.emit('displayError', '此活動不存在！'))
+    //   .catch(error => socket.emit('displayError', error.message))
   },
   fetch (id) {
     // this.signals(SocketIO.sockets, id)

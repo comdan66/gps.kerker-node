@@ -11,6 +11,7 @@ require('./sys/core/App')({
     queue: null,
     sockets: [
       { title:'LIVE', name: 'live' },
+      { title:'Test', name: 'test' },
     ],
     https: null,
     socketIO: new Map(),
@@ -19,7 +20,7 @@ require('./sys/core/App')({
     router (info) {
       const dirs = (info.pathname === '' ? 'index' : info.pathname).split('/')
       const file = dirs.pop()
-      const api  = this[this.env.status == 'Production' ? 'requireOnce' : 'require']('app', 'controller', info.method.toLowerCase(), ...dirs, file + '.js') || this[this.env.status == 'Production' ? 'requireOnce' : 'require']('app', 'controller', '404.js')
+      const api  = this.requireOnce('app', 'controller', info.method.toLowerCase(), ...dirs, file + '.js') || this.requireOnce('app', 'controller', '404.js')
       try { return api.call(this, info, this) }
       catch (error) { return info.output.e500(error) }
     },
@@ -58,10 +59,6 @@ require('./sys/core/App')({
       ...this.sockets.map(({ title, name }) => ' '.repeat(6) + this.xterm.color.purple('↳').dim() + ' ' + title + this.xterm.color.gray('：').dim() + this.xterm.color.purple('/' + name).italic().underline()),,
       ' ' + this.xterm.color.yellow('【以下為紀錄】'),,
       ].join("\n"))))
-
-    // setInterval(_ => {
-    //   console.error('=> ', process.memoryUsage().heapUsed);
-    // }, 1 * 1000)
     
   }
 })

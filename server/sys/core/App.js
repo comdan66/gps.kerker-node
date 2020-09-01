@@ -62,6 +62,13 @@ const outputLog = ({ content = '', status = 200, type = 'html', request: { heade
     process.stdout.write("\r" + [new Date(), status, ip, method, protocol, '/' + pathname, query, headers['user-agent'] || ''].join(' ─ ') + "\n")
 }
 
+const disableColor = (_ => {
+  for (let argv of process.argv.slice(2))
+    if (['-P', '--plain'].includes(argv))
+      return true
+  return false
+})()
+
 module.exports = function(instance) {
   const startAt = new Date().getTime()
 
@@ -176,7 +183,8 @@ module.exports = function(instance) {
 
   // Lib 設定
   instance.progress = instance.requireOnce('sys', 'core', 'Progress.js')
-  instance.xterm && instance.progress && (instance.progress.color = instance.xterm.color)
+  instance.xterm.enable = !disableColor
+  instance.xterm && instance.xterm.enable && instance.progress && (instance.progress.xterm = instance.xterm)
   instance.env   || instance.error('找不到 env.js 檔案，請複製 env.example.js 內容並新增 env.js 檔案後再重試一次！')
   instance.db    || instance.error('Model 無法取得 Lib！')
   instance.db    && instance.env.mysql ? (instance.db.config = instance.env.mysql) : (instance.db = null)
@@ -197,7 +205,7 @@ module.exports = function(instance) {
   // 定義時間格式
   process.env.TZ = 'Asia/Taipei'
   // 清除畫面
-  process.stdout.write("\x1b[2J\x1b[0f")
+  instance.xterm.enable && process.stdout.write("\x1b[2J\x1b[0f")
   // 中斷時
   process.on('SIGINT', instance.sigint)
   

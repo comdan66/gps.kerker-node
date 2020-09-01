@@ -11,8 +11,10 @@ const Xterm = function(text) {
   this.codes = []
 }
 
+Xterm.enable = true
+
 Xterm.prototype = { ...Xterm.prototype,
-  toString () { return this.codes.reduce((a, b) => b + a + '\x1b[0m', this.text) },
+  toString () { return !Xterm.enable ? '' + this.text : this.codes.reduce((a, b) => b + a + '\x1b[0m', this.text) },
   bold () { return this.code('\x1b[1m') },
   dim () { return this.code('\x1b[2m') },
   italic () { return this.code('\x1b[3m') },

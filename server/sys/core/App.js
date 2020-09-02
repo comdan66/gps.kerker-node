@@ -210,10 +210,10 @@ module.exports = function(instance) {
       ? {
         key: FileSystem.readFileSync(instance.env.status != 'Production'
           ? instance.path('sys', 'ssl', 'server.key')
-          : instance.env.server.key),
+          : instance.env.server.option.key),
         cert: FileSystem.readFileSync(instance.env.status != 'Production'
           ? instance.path('sys', 'ssl', 'server.crt')
-          : instance.env.server.cert)
+          : instance.env.server.option.cert)
       } : undefined
   } catch (e) {
     instance.error('https key、cert 讀取錯誤！', e)

@@ -23,7 +23,8 @@ module.exports = {
       script: '../Server.js',
       args: '-P',
       log_file: 'log/Server.log',
-      max_memory_restart: '20M'
+      max_memory_restart: '512M',
+      instances: 4
     }
   ]
 }

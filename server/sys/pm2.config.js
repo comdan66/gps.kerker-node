@@ -24,7 +24,9 @@ module.exports = {
       args: '-P',
       log_file: 'log/Server.log',
       max_memory_restart: '512M',
-      instances: 4
+      instances: 4,
+      time: true,
+      cron_restart: '0 * * * *',
     }
   ]
 }

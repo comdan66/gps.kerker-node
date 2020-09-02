@@ -24,21 +24,21 @@ require('./sys/core/App')({
   init () {
     this.queue = this.require('sys', 'core', 'Queue.js').create()
     
-    this.queue.enqueue(next => next(process.stdout.write("\r\n" + new Date() + ' ─ 啟動伺服器 ' + "\n")))
+    this.queue.enqueue(next => next(process.stdout.write("\r\n" + '啟動伺服器 ' + "\n")))
     
     // 建立 Server
     this.queue.enqueue(next => this.server(
       info   => this.router(info),
-      server => next(server, process.stdout.write(new Date() + ' ─ 啟動 ' + this.env.server.protocol + ' Server 完成' + "\n")),
+      server => next(server, process.stdout.write(this.env.server.protocol + ' Server 完成' + "\n")),
       error  => this.error(error)))
 
     // 建立 socket
     this.sockets.forEach(name => this.queue.enqueue((next, server) => this.socket(name, server,
-      socketIO => next(server, this.socketIO.set(name, socketIO), process.stdout.write(new Date() + ' ─ 啟動 Web Socket Server ─ ' + name + ' 完成' + "\n")),
+      socketIO => next(server, this.socketIO.set(name, socketIO), process.stdout.write('啟動 Web Socket Server ─ ' + name + ' 完成' + "\n")),
       error  => this.error(error))))
 
-    this.queue.enqueue(next => next(process.stdout.write(new Date() + ' ─ 完成啟動 ' + "\n")))
+    this.queue.enqueue(next => next(process.stdout.write('完成啟動 ' + "\n")))
 
-    this.queue.enqueue(next => next(process.stdout.write(new Date() + ' ─ 開始記錄 ' + "\n")))
+    this.queue.enqueue(next => next(process.stdout.write('開始記錄 ' + "\n")))
   }
 })

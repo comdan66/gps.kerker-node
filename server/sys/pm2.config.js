@@ -17,6 +17,8 @@ module.exports = {
       
       watch: '../../',
       ignore_watch: 'log',
+
+      log_date_format: 'YYYY-MM-DD HH:mm:ss'
     },
     {
       name: 'production',
@@ -24,9 +26,9 @@ module.exports = {
       args: '-P',
       log_file: 'log/Server.log',
       max_memory_restart: '512M',
-      instances: 4,
-      time: true,
+
       cron_restart: '0 * * * *',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss'
     }
   ]
 }

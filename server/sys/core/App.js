@@ -60,7 +60,6 @@ const outputLog = ({ content = '', status = 200, type = 'html', request: { heade
     response.write('' + content),
     response.end(),
     process.stdout.write([
-      new Date(),
       ip.replace(/^.*:/, ''),
       method,
       '/' + pathname + (query !== null ? '?' + query : ''),

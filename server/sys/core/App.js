@@ -47,7 +47,7 @@ const parseJson = text => {
   catch (e) { return null }
 }
 
-const outputLog = ({ content = '', status = 200, type = 'html', request: { headers, connection: { remoteAddress: ip } }, response, method, protocol, pathname, url: { query } }) => {
+const outputLog = ({ content = '', status = 200, type = 'html', request: { headers, connection: { remoteAddress: ip } }, response, method, pathname, url: { query } }) => {
   if (typeof content == 'object' && content !== null)
     if (content.toString === undefined)
       content = JSON.stringify(content), type = 'json'
@@ -59,7 +59,13 @@ const outputLog = ({ content = '', status = 200, type = 'html', request: { heade
       : { 'Content-Type': 'application/json; charset=UTF-8', ...CORS }),
     response.write('' + content),
     response.end(),
-    process.stdout.write("\r" + [new Date(), status, ip, method, protocol, '/' + pathname, query, headers['user-agent'] || ''].join(' ─ ') + "\n")
+    process.stdout.write([
+      new Date(),
+      ip.replace(/^.*:/, ''),
+      method,
+      '/' + pathname + (query !== null ? '?' + query : ''),
+      status,
+      headers['user-agent'] || ''].join(' ─ ') + "\n")
 }
 
 const disableColor = (_ => {
@@ -82,8 +88,13 @@ module.exports = function(instance) {
     sigint ()              { return this.end(), process.exit(1), this },
     exit (code = 0)        { return this.end(), process.exit(code), this },
     error (...messages)    { return this.xterm ? messages.length && process.stdout.write("\r\n\n" + ' ' + this.xterm.color.red('【錯誤訊息】') + "\n" + messages.map(message => ' '.repeat(3) + this.xterm.color.purple('◉') + ' ' + (message instanceof Error ? message.stack : message) + "\n").join('') + "\n") : messages.length && process.stdout.write("\r\n\n" + ' ' + '【錯誤訊息】' + "\n" + messages.map(message => ' '.repeat(3) + '◉' + ' ' + (message instanceof Error ? message.stack : message) + "\n").join('') + "\n"), this.sigint(), this },
-    requireOnce (...argvs) { try { return FileSystem.accessSync(argvs = this.path(...argvs), FileSystem.constants.R_OK), require(argvs) } catch (e) { return undefined } },
-    require (...argvs)     { return delete require.cache[this.path(...argvs)], this.requireOnce(...argvs) },
+    exist (...argvs)       { try { return FileSystem.accessSync(argvs = this.path(...argvs), FileSystem.constants.R_OK), argvs } catch (e) { return null } },
+
+    require (...argvs) {
+      argvs = this.exist(...argvs)
+      try { return argvs !== null ? require(argvs) : undefined }
+      catch (e) { return undefined }
+    },
     
     during () {
       const units = [], contitions = [{ base: 60, format: '秒' }, { base: 60, format: '分鐘' }, { base: 24, format: '小時' }, { base: 30, format: '天' }, { base: 12, format: '個月' }]
@@ -99,16 +110,16 @@ module.exports = function(instance) {
       return now > 0 && units.push(now + ' 年'), units.length < 1 && units.push(now + ' 秒'), units.reverse().join(' ')
     },
 
-    server (protocol, option, closure, success, failure) {
-      const server = require(protocol).Server(protocol == 'https' ? option.option : undefined)
+    server (closure, success, failure) {
+      const server = require(this.env.server.protocol).Server(this.env.server.option)
       server.on('error', failure)
-      server.listen(option.port, _ => success(server))
+      server.listen(this.env.server.port, _ => success(server))
       server.on('request', (request, response) => {
         const url      = URL.parse(request.url)
         const params   = { post: {}, file: {}, get: parsePost(url.query), raw: '', json: null }
         const method   = request.method.toUpperCase()
         const pathname = url.pathname.replace(/\/+/gm, '/').replace(/\/$|^\//gm, '')
-        const info     = { request, response, method, protocol, pathname, params, url }
+        const info     = { request, response, method, pathname, params, url }
         const output   = {
           e500: error => outputLog({ content: '500 Internal Server Error！' + (this.env.status != 'Production' && error ? "\n\n" + (error instanceof Error ? error.stack : error) : ''), status: 500, type: 'html', ...info }),
           text: (content, status) => outputLog({ content, status, type: 'html', ...info }),
@@ -139,7 +150,7 @@ module.exports = function(instance) {
     },
     socket (name, server, success, failure) {
       const file = name.replace(/^\/|\/$/gm, '').replace('/', Path.sep) + '.js'
-      const socket = this.requireOnce('app', 'socket', file)
+      const socket = this.require('app', 'socket', file)
 
       if (!socket) return failure('載入 Socket「' + file + '」失敗'), this
       
@@ -174,15 +185,15 @@ module.exports = function(instance) {
       methods[key] = instance[key], delete instance[key], Object.defineProperty(instance, key, { get: _ => methods[key].bind(instance), set: v => methods[key] = v })  
 
   // 載入顏色、Model、FileSystem Lib
-  instance.xterm = instance.requireOnce('sys', 'core', 'Xterm.js')
-  instance.db    = instance.requireOnce('sys', 'core', 'Model.js')
+  instance.xterm = instance.require('sys', 'core', 'Xterm.js')
+  instance.db    = instance.require('sys', 'core', 'Model.js')
   instance.fs    = FileSystem
 
   // 環境設定
-  instance.env   = instance.requireOnce('sys', 'env.js')
+  instance.env   = instance.require('sys', 'env.js')
 
   // Lib 設定
-  instance.progress = instance.requireOnce('sys', 'core', 'Progress.js')
+  instance.progress = instance.require('sys', 'core', 'Progress.js')
   instance.xterm.enable = !disableColor
   instance.xterm && instance.xterm.enable && instance.progress && (instance.progress.xterm = instance.xterm)
   instance.env   || instance.error('找不到 env.js 檔案，請複製 env.example.js 內容並新增 env.js 檔案後再重試一次！')
@@ -190,14 +201,20 @@ module.exports = function(instance) {
   instance.db    && instance.env.mysql ? (instance.db.config = instance.env.mysql) : (instance.db = null)
 
   // 載入 Models
-  instance.fs.readdirSync(instance.path('app', 'model', '')).filter(file => file.match(/\.js$/)).map(file => file.replace(/\.js$/gm, '')).forEach(model => instance.model[model] = instance.requireOnce('app', 'model', model + '.js'))
+  instance.fs.readdirSync(instance.path('app', 'model', '')).filter(file => file.match(/\.js$/)).map(file => file.replace(/\.js$/gm, '')).forEach(model => instance.model[model] = instance.require('app', 'model', model + '.js'))
   instance.model._Migration = class _Migration extends instance.db.Model {}
 
-  // 設定 https
+  // 設定 server
   try {
-    instance.env.https.option = { key: FileSystem.readFileSync(instance.env.status != 'Production' ? instance.path('sys', 'ssl', 'server.key') : instance.env.https.key), cert: FileSystem.readFileSync(instance.env.status != 'Production' ? instance.path('sys', 'ssl', 'server.crt') : instance.env.https.cert) }
-    delete instance.env.https.key
-    delete instance.env.https.cert
+    instance.env.server.option = instance.env.server.protocol == 'https'
+      ? {
+        key: FileSystem.readFileSync(instance.env.status != 'Production'
+          ? instance.path('sys', 'ssl', 'server.key')
+          : instance.env.server.key),
+        cert: FileSystem.readFileSync(instance.env.status != 'Production'
+          ? instance.path('sys', 'ssl', 'server.crt')
+          : instance.env.server.cert)
+      } : undefined
   } catch (e) {
     instance.error('https key、cert 讀取錯誤！', e)
   }

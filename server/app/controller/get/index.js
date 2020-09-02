@@ -7,6 +7,6 @@
 
 
 module.exports = ({ output: { json }, params: { get: { id } } }, { env: { google: { keys } }, model: { Event, Signal } }) => {
-  json({a: 12})
+  json({a: 1})
   // process.exit(1)
 }

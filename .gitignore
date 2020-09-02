@@ -8,3 +8,6 @@ server/sys/env.js
 
 server/sys/ssl/*
 !/server/sys/ssl/.gitkeep
+
+server/sys/log/*
+!/server/sys/log/.gitkeep

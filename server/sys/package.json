@@ -9,6 +9,7 @@
   "dependencies": {
     "formidable": "^1.2.2",
     "mysql": "^2.18.1",
+    "pm2": "^4.4.1",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {},

@@ -12,11 +12,14 @@ module.exports = {
     keys: []
   },
 
-  https: {
-    domain: '',
-    port: 8716,
-    key: null,
-    cert: null
+  server: {
+    protocol: 'http',
+    domain: '127.0.0.1',
+    port: 8000,
+    option: {
+      key: null,
+      cert: null 
+    },
   },
 
   mysql: {

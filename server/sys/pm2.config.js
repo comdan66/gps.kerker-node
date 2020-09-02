@@ -22,10 +22,10 @@ module.exports = {
       name: 'production',
       script: '../Server.js',
       args: '-P',
-      out_file: 'log',
+      log_file: 'log/Server.log',
       max_memory_restart: '512M',
       instances: 4,
-      // time: true,
+      time: true,
       cron_restart: '0 * * * *',
     }
   ]
